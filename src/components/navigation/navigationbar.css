@@ -2,6 +2,6 @@ nav {
   background-color: rgb(51, 103, 214);
 }
 
-a {
+.navbar-brand {
   color: white !important;
 }

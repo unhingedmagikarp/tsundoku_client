@@ -1,31 +1,39 @@
 import React from "react";
 import axios from "axios";
-import { ListGroup, ListGroupItem } from "reactstrap";
+import { ListGroup, Container, Row, Col } from "reactstrap";
+import Bookmark from "./Bookmark";
 
 class BookmarkContainer extends React.Component {
-  componentDidMount() {
+  state = {};
+
+  componentWillMount() {
     this.fetchBookmarks();
   }
 
   fetchBookmarks = () => {
     axios
       .get("http://localhost:3000/bookmarks")
-      .then(res => {
-        console.log(res.data.data);
-
-        return this.setState({ bookmarks: res.data });
-      })
+      .then(res => this.setState({ bookmarks: res.data.data }))
       .catch(err => console.log(err));
   };
+
   render() {
     return (
-      <ListGroup>
-        <ListGroupItem>Cras justo odio</ListGroupItem>
-        <ListGroupItem>Dapibus ac facilisis in</ListGroupItem>
-        <ListGroupItem>Morbi leo risus</ListGroupItem>
-        <ListGroupItem>Porta ac consectetur ac</ListGroupItem>
-        <ListGroupItem>Vestibulum at eros</ListGroupItem>
-      </ListGroup>
+      <Container fluid>
+        <Row>
+          <Col lg="3" style={{ border: "1px solid black", height: "800px" }} />
+          <Col lg="7">
+            <div style={{ border: "1px solid red", height: "800px" }}>
+              {this.state.bookmarks
+                ? this.state.bookmarks.map((item, index) => (
+                    <Bookmark data={item} key={index} />
+                  ))
+                : null}
+            </div>
+          </Col>
+          <Col lg="2" />
+        </Row>
+      </Container>
     );
   }
 }
