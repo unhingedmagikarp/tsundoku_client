@@ -6,12 +6,10 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import NavigationBar from "./navigation/NavigationBar";
 import AuthSignIn from "./AuthSignIn.js";
 import AuthSignOut from "./AuthSignOut.js";
-// import PageHome from './PageHome.js'
-// import Page from './Page.js'
 
 import BookmarkContainer from "./bookmark/BookmarkContainer";
 
-const Api = require("../lib/Api.js");
+import * as Api from "../lib/Api.js";
 
 class TokenAuthComponent extends React.Component {
   static propTypes = {
@@ -24,7 +22,11 @@ class TokenAuthComponent extends React.Component {
         <div>
           <NavigationBar appState={this.state} />
 
-          <Route exact path="/" component={BookmarkContainer} />
+          <Route
+            exact
+            path="/"
+            render={() => <BookmarkContainer cookies={this.props.cookies} />}
+          />
 
           <Route
             exact
@@ -106,7 +108,9 @@ class TokenAuthComponent extends React.Component {
   }
 
   getBookmarks() {
-    Api.getBookmarks().then(response => {
+    const { cookies } = this.props;
+    let jwt = cookies.get(this.state.cookieName);
+    Api.getBookmarks(jwt).then(response => {
       this.setState({
         bookmarks: response
       });
@@ -117,7 +121,6 @@ class TokenAuthComponent extends React.Component {
     const { cookies } = this.props;
     let jwt = cookies.get(this.state.cookieName);
     if (!jwt) return null;
-    console.log(this.props);
 
     Api.getCurrentUser(jwt).then(response => {
       if (response !== undefined) {
@@ -126,7 +129,6 @@ class TokenAuthComponent extends React.Component {
           user_id: response.id,
           jwt: jwt
         });
-        console.log(this.state);
         if (history) history.push("/");
       } else {
         // user has cookie but cannot load current user

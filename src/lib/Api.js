@@ -35,13 +35,19 @@ module.exports = {
         return undefined;
       });
   },
-  getBookmarks: function() {
+  getBookmarks: function(jwt) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
     return axios
-      .get(apiHost + "/api/bookmarks")
-      .then(function(response) {
+      .get(apiHost + "/api/bookmarks/", config)
+      .then(response => {
         return response.data;
       })
-      .catch(function(error) {
+      .catch(error => {
         return undefined;
       });
   },

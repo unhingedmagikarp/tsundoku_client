@@ -1,22 +1,23 @@
 import React from "react";
-import axios from "axios";
-import { ListGroup, Container, Row, Col } from "reactstrap";
+import { Container, Row, Col } from "reactstrap";
 import Bookmark from "./Bookmark";
-import { withCookies, Cookies } from "react-cookie";
+import * as Api from "../../lib/Api";
 
 class BookmarkContainer extends React.Component {
   state = {};
 
   componentWillMount() {
-    this.fetchBookmarks();
+    const { cookies } = this.props;
+    let jwt = cookies.get("rails-react-token-auth-jwt");
+    this.fetchBookmarks(jwt);
   }
 
-  fetchBookmarks = () => {
-    // console.log(cookies.get());
-    axios
-      .get("http://localhost:3000/api/bookmarks")
-      .then(res => this.setState({ bookmarks: res.data.data }))
-      .catch(err => console.log(err));
+  fetchBookmarks = jwt => {
+    Api.getBookmarks(jwt).then(response => {
+      this.setState({
+        bookmarks: response.data
+      });
+    });
   };
 
   render() {

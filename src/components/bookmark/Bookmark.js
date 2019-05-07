@@ -12,7 +12,6 @@ class Bookmark extends React.Component {
   //   }
 
   render() {
-    console.log(this.props.data);
     return (
       <Container>
         <Row>
