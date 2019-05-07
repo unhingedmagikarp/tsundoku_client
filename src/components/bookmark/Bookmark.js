@@ -1,15 +1,10 @@
 import React from "react";
 import { Col, Row, Container } from "reactstrap";
-import { Link } from "react-router-dom";
 
 import "./bookmark.css";
 
 class Bookmark extends React.Component {
   state = {};
-
-  //   constructor(props) {
-  //     super(props);
-  //   }
 
   render() {
     return (

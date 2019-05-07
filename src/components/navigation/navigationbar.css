@@ -2,6 +2,12 @@ nav {
   background-color: rgb(51, 103, 214);
 }
 
-.navbar-brand {
+.navbar-brand,
+.nav-item,
+.nav-link {
   color: white !important;
+}
+
+.iconClass {
+  font-size: 30px;
 }
