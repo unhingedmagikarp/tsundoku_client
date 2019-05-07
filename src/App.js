@@ -1,19 +1,18 @@
 import React from "react";
-import axios from "axios";
-import NavigationBar from "./components/navigation/NavigationBar";
-import BookmarkContainer from "./components/bookmark/BookmarkContainer";
+import { CookiesProvider } from "react-cookie";
+import TokenAuth from "./components/TokenAuth.js";
 
 class App extends React.Component {
   state = {};
 
   render() {
     return (
-      <div className="App">
-        <NavigationBar />
-        <BookmarkContainer />
-      </div>
+      <CookiesProvider>
+        <TokenAuth />
+      </CookiesProvider>
     );
   }
 }
+App.defaultProps = {};
 
 export default App;

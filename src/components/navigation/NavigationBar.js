@@ -10,6 +10,8 @@ import {
 } from "reactstrap";
 import "./navigationbar.css";
 
+import { Link } from "react-router-dom";
+
 export default class NavigationBar extends React.Component {
   constructor(props) {
     super(props);
@@ -35,11 +37,18 @@ export default class NavigationBar extends React.Component {
               <NavItem>
                 <NavLink href="/">Home</NavLink>
               </NavItem>
-              {/* <NavItem>
-                <NavLink href="https://github.com/reactstrap/reactstrap">
-                  GitHub
+
+              {!this.props.appState.jwt && (
+                <NavLink href="/sign-in">
+                  <NavItem eventkey={3}>Sign In</NavItem>
                 </NavLink>
-              </NavItem> */}
+              )}
+
+              {this.props.appState.jwt && (
+                <NavLink href="/sign-out">
+                  <NavItem eventkey={4}>Sign Out</NavItem>
+                </NavLink>
+              )}
             </Nav>
           </Collapse>
         </Navbar>
