@@ -7,12 +7,13 @@ class BookmarkContainer extends React.Component {
   state = {};
 
   componentWillMount() {
-    const { cookies } = this.props;
-    let jwt = cookies.get("rails-react-token-auth-jwt");
-    this.fetchBookmarks(jwt);
+    console.log("in container");
+    this.fetchBookmarks();
   }
 
-  fetchBookmarks = jwt => {
+  fetchBookmarks = () => {
+    const { cookies } = this.props;
+    let jwt = cookies.get("rails-react-token-auth-jwt");
     Api.getBookmarks(jwt).then(response => {
       this.setState({
         bookmarks: response.data

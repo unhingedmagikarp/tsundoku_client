@@ -12,8 +12,83 @@ import BookmarkContainer from "./bookmark/BookmarkContainer";
 import * as Api from "../lib/Api.js";
 
 class TokenAuthComponent extends React.Component {
+  constructor(props) {
+    super(props);
+
+    this.state = this.defaultState();
+
+    this.propagateSignIn = this.propagateSignIn.bind(this);
+    this.propagateSignOut = this.propagateSignOut.bind(this);
+  }
   static propTypes = {
     cookies: instanceOf(Cookies).isRequired
+  };
+
+  componentDidMount() {
+    this.getUser();
+    this.getBookmarks();
+  }
+
+  defaultState() {
+    return {
+      cookieName: "rails-react-token-auth-jwt",
+      email: undefined,
+      jwt: undefined,
+      user_id: undefined,
+      bookmarks: []
+    };
+  }
+
+  propagateSignIn = (jwt, history = undefined) => {
+    const { cookies } = this.props;
+    cookies.set(this.state.cookieName, jwt, { path: "/" });
+    this.getUser(history);
+  };
+
+  propagateSignOut = (history = undefined) => {
+    const { cookies } = this.props;
+    cookies.remove(this.state.cookieName);
+    this.setState({
+      email: undefined,
+      user_id: undefined,
+      jwt: undefined
+    });
+    if (history) history.push("/");
+  };
+
+  getBookmarks = () => {
+    const { cookies } = this.props;
+    let jwt = cookies.get(this.state.cookieName);
+    Api.getBookmarks(jwt).then(response => {
+      this.setState({
+        bookmarks: response
+      });
+    });
+  };
+
+  getUser = (history = undefined) => {
+    const { cookies } = this.props;
+    let jwt = cookies.get(this.state.cookieName);
+    if (!jwt) return null;
+
+    Api.getCurrentUser(jwt).then(response => {
+      if (response !== undefined) {
+        this.setState({
+          email: response.email,
+          user_id: response.id,
+          jwt: jwt
+        });
+        if (history) history.push("/");
+      } else {
+        // user has cookie but cannot load current user
+        cookies.remove(this.state.cookieName);
+        this.setState({
+          email: undefined,
+          user_id: undefined,
+          jwt: undefined
+        });
+      }
+    });
   };
 
   render() {
@@ -64,82 +139,6 @@ class TokenAuthComponent extends React.Component {
         </div>
       </Router>
     );
-  }
-
-  componentDidMount() {
-    this.getUser();
-    this.getBookmarks();
-  }
-
-  defaultState() {
-    return {
-      cookieName: "rails-react-token-auth-jwt",
-      email: undefined,
-      jwt: undefined,
-      user_id: undefined,
-      bookmarks: []
-    };
-  }
-
-  constructor(props) {
-    super(props);
-
-    this.state = this.defaultState();
-
-    this.propagateSignIn = this.propagateSignIn.bind(this);
-    this.propagateSignOut = this.propagateSignOut.bind(this);
-  }
-
-  propagateSignIn(jwt, history = undefined) {
-    const { cookies } = this.props;
-    cookies.set(this.state.cookieName, jwt, { path: "/" });
-    this.getUser(history);
-  }
-
-  propagateSignOut(history = undefined) {
-    const { cookies } = this.props;
-    cookies.remove(this.state.cookieName);
-    this.setState({
-      email: undefined,
-      user_id: undefined,
-      jwt: undefined
-    });
-    if (history) history.push("/");
-  }
-
-  getBookmarks() {
-    const { cookies } = this.props;
-    let jwt = cookies.get(this.state.cookieName);
-    Api.getBookmarks(jwt).then(response => {
-      this.setState({
-        bookmarks: response
-      });
-    });
-  }
-
-  getUser(history = undefined) {
-    const { cookies } = this.props;
-    let jwt = cookies.get(this.state.cookieName);
-    if (!jwt) return null;
-
-    Api.getCurrentUser(jwt).then(response => {
-      if (response !== undefined) {
-        this.setState({
-          email: response.email,
-          user_id: response.id,
-          jwt: jwt
-        });
-        if (history) history.push("/");
-      } else {
-        // user has cookie but cannot load current user
-        cookies.remove(this.state.cookieName);
-        this.setState({
-          email: undefined,
-          user_id: undefined,
-          jwt: undefined
-        });
-      }
-    });
   }
 }
 

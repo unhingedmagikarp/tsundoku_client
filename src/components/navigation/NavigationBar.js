@@ -9,23 +9,27 @@ import {
   NavLink
 } from "reactstrap";
 import "./navigationbar.css";
-
-import { Link } from "react-router-dom";
+import { MdAdd } from "react-icons/md";
+import BookmarkModal from "../modalComponent/BookmarkModal";
 
 export default class NavigationBar extends React.Component {
-  constructor(props) {
-    super(props);
+  state = {
+    isOpen: false,
+    modal: false
+  };
 
-    this.toggle = this.toggle.bind(this);
-    this.state = {
-      isOpen: false
-    };
-  }
-  toggle() {
+  toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
     });
-  }
+  };
+
+  toggleModal = () => {
+    this.setState({
+      modal: !this.state.modal
+    });
+  };
+
   render() {
     return (
       <div>
@@ -35,7 +39,14 @@ export default class NavigationBar extends React.Component {
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
               <NavItem>
-                <NavLink href="/">Home</NavLink>
+                <MdAdd className="iconClass" onClick={this.toggleModal} />
+                {this.state.modal && (
+                  <BookmarkModal
+                    token={this.props.appState.jwt}
+                    toggle={this.toggleModal}
+                    modal={this.state.modal}
+                  />
+                )}
               </NavItem>
 
               {!this.props.appState.jwt && (

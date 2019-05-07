@@ -87,7 +87,7 @@ class AuthSignInComponent extends React.Component {
     this.setEmail = this.setEmail.bind(this);
   }
 
-  getFormErrors() {
+  getFormErrors = () => {
     let fields = ["email", "password", "submit"];
     let errors = [];
     fields.map(field => {
@@ -97,9 +97,9 @@ class AuthSignInComponent extends React.Component {
       }
     });
     return errors;
-  }
+  };
 
-  setEmail(event) {
+  setEmail = event => {
     let newVal = event.target.value || "";
     let errorMessage = newVal.length === 0 ? "Email is required." : "";
     this.setState({
@@ -111,9 +111,9 @@ class AuthSignInComponent extends React.Component {
         error: ""
       }
     });
-  }
+  };
 
-  setPassword(event) {
+  setPassword = event => {
     let newVal = event.target.value || "";
     let errorMessage = newVal.length === 0 ? "Password is required." : "";
     this.setState({
@@ -125,9 +125,9 @@ class AuthSignInComponent extends React.Component {
         error: ""
       }
     });
-  }
+  };
 
-  handleSubmit(event) {
+  handleSubmit = event => {
     event.preventDefault();
     this.setState({
       formSubmitted: true,
@@ -155,7 +155,7 @@ class AuthSignInComponent extends React.Component {
         });
       }
     });
-  }
+  };
 }
 
 export default AuthSignInComponent;

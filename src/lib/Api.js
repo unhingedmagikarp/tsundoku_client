@@ -60,10 +60,26 @@ module.exports = {
     }
     return axios
       .get(apiHost + "/api/bookmarks/" + id, config)
-      .then(function(response) {
+      .then(response => {
         return response.data;
       })
-      .catch(function(error) {
+      .catch(error => {
+        return undefined;
+      });
+  },
+  postBookmark: function(jwt, data) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    return axios
+      .post(apiHost + "/api/bookmarks/", data, config)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
         return undefined;
       });
   }
