@@ -34,6 +34,16 @@ class GroupContainer extends Component {
     ]
   };
 
+  componentDidMount() {
+    const { cookies } = this.props.jwt;
+    let jwt = cookies.get("rails-react-token-auth-jwt");
+    if (!jwt) {
+      return;
+    } else {
+      this.setState({ jwt: jwt });
+    }
+  }
+
   render() {
     return (
       <div>

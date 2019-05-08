@@ -13,3 +13,15 @@
   font-weight: bold;
   font-family: "Times New Roman", Times, serif;
 }
+
+.urlLink {
+  padding: 20px;
+}
+
+.bookmarkContainer {
+  margin-top: 15px;
+}
+
+.close {
+  margin-top: 10px;
+}
