@@ -8,6 +8,7 @@ import {
   ListGroupItem,
   Badge
 } from "reactstrap";
+import { MdPeople } from "react-icons/md";
 
 class CollapsableGroup extends Component {
   constructor(props) {
@@ -29,8 +30,8 @@ class CollapsableGroup extends Component {
           style={{ marginBottom: "1rem" }}
         >
           {this.props.group.name}{" "}
-          <Badge color="success" pill>
-            Members: {this.props.group.members.length}
+          <Badge color="light" pill>
+            <MdPeople /> {this.props.group.members.length}
           </Badge>
         </Button>
         <Collapse isOpen={this.state.collapse}>

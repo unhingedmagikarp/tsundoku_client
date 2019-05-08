@@ -1,6 +1,14 @@
 import React from "react";
-import { Col, Row, Container, Card, CardHeader, CardText } from "reactstrap";
-
+import {
+  Col,
+  Row,
+  Container,
+  Card,
+  CardHeader,
+  CardText,
+  Button
+} from "reactstrap";
+import { IoIosRemoveCircleOutline } from "react-icons/io";
 import "./bookmark.css";
 
 class Bookmark extends React.Component {
@@ -27,7 +35,7 @@ class Bookmark extends React.Component {
               </Col>
               <Col lg="4" sm="4" />
               <Col lg="1" sn="1" className="float-right">
-                button
+                <Button close />
               </Col>
             </Row>
           </Col>
