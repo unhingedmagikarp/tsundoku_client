@@ -6,6 +6,7 @@ import { BrowserRouter as Router, Route } from "react-router-dom";
 import NavigationBar from "./navigation/NavigationBar";
 import AuthSignIn from "./AuthSignIn.js";
 import AuthSignOut from "./AuthSignOut.js";
+import AuthSignUp from "./AuthSignUp.js";
 
 import BookmarkContainer from "./bookmark/BookmarkContainer";
 
@@ -26,7 +27,7 @@ class TokenAuthComponent extends React.Component {
 
   componentDidMount() {
     this.getUser();
-    this.getBookmarks();
+    // this.getBookmarks();
   }
 
   defaultState() {
@@ -117,6 +118,19 @@ class TokenAuthComponent extends React.Component {
               path="/sign-in"
               render={routeProps => (
                 <AuthSignIn
+                  {...routeProps}
+                  propagateSignIn={this.propagateSignIn}
+                />
+              )}
+            />
+          )}
+
+          {!this.state.jwt && (
+            <Route
+              exact
+              path="/sign-up"
+              render={routeProps => (
+                <AuthSignUp
                   {...routeProps}
                   propagateSignIn={this.propagateSignIn}
                 />

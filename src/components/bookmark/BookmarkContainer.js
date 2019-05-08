@@ -2,23 +2,29 @@ import React from "react";
 import { Container, Row, Col } from "reactstrap";
 import Bookmark from "./Bookmark";
 import * as Api from "../../lib/Api";
+import AuthSignInComponent from "../AuthSignIn";
+import { Redirect } from "react-router-dom";
 
 class BookmarkContainer extends React.Component {
   state = {};
 
   componentWillMount() {
-    console.log("in container");
     this.fetchBookmarks();
   }
 
   fetchBookmarks = () => {
     const { cookies } = this.props;
     let jwt = cookies.get("rails-react-token-auth-jwt");
-    Api.getBookmarks(jwt).then(response => {
-      this.setState({
-        bookmarks: response.data
-      });
-    });
+    if (!jwt) {
+      return <Redirect to="/sign-in" />;
+    }
+    Api.getBookmarks(jwt)
+      .then(response => {
+        this.setState({
+          bookmarks: response.data
+        });
+      })
+      .catch(err => console.log(err));
   };
 
   render() {
