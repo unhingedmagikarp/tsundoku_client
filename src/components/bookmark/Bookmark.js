@@ -33,7 +33,7 @@ class Bookmark extends React.Component {
               </Col>
               <Col lg="4" sm="4" />
               <Col lg="1" sn="1" className="float-right">
-                <Button close />
+                <Button onClick={this.props.onDelete} close />
               </Col>
             </Row>
           </Col>

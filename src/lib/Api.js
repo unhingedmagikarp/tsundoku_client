@@ -98,5 +98,21 @@ module.exports = {
       .catch(error => {
         return undefined;
       });
+  },
+  deleteBookmark: function(id, jwt) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    return axios
+      .delete(apiHost + `/api/bookmarks/${id}`, config)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return undefined;
+      });
   }
 };

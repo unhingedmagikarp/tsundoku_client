@@ -47,8 +47,10 @@ class GroupContainer extends Component {
   render() {
     return (
       <div>
-        {this.state.groups && this.state.jwt
-          ? this.state.groups.map(group => <CollapsableGroup group={group} />)
+        {this.state.groups
+          ? this.state.groups.map((group, index) => (
+              <CollapsableGroup key={index} group={group} />
+            ))
           : null}
       </div>
     );

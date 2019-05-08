@@ -29,6 +29,15 @@ class BookmarkContainer extends React.Component {
       .catch(err => console.log(err));
   };
 
+  handleDelete = id => {
+    const { cookies } = this.props;
+    let jwt = cookies.get("rails-react-token-auth-jwt");
+    if (!jwt) {
+      return <Redirect to="/sign-in" />;
+    }
+    Api.deleteBookmark(id, jwt).then(() => this.fetchBookmarks());
+  };
+
   render() {
     return (
       <Container fluid>
@@ -38,13 +47,15 @@ class BookmarkContainer extends React.Component {
           </Col>
           <Col lg="7" sm="7">
             <div>
-              {this.state.bookmarks && this.state.jwt ? (
-                this.state.bookmarks.map((item, index) => (
-                  <Bookmark data={item} key={index} />
-                ))
-              ) : (
-                <HomePage />
-              )}
+              {this.state.bookmarks
+                ? this.state.bookmarks.map((item, index) => (
+                    <Bookmark
+                      onDelete={() => this.handleDelete(item.id)}
+                      data={item}
+                      key={index}
+                    />
+                  ))
+                : null}
             </div>
           </Col>
           <Col lg="2" sm="2" />
