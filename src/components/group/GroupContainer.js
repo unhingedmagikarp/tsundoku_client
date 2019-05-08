@@ -38,7 +38,9 @@ class GroupContainer extends Component {
     return (
       <div>
         {this.state.groups
-          ? this.state.groups.map(group => <CollapsableGroup group={group} />)
+          ? this.state.groups.map((group, index) => (
+              <CollapsableGroup key={index} group={group} />
+            ))
           : null}
       </div>
     );

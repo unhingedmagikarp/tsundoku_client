@@ -28,6 +28,10 @@ class BookmarkContainer extends React.Component {
       .catch(err => console.log(err));
   };
 
+  handleDelete = () => {
+    console.log("Delete");
+  };
+
   render() {
     return (
       <Container fluid>
@@ -39,7 +43,11 @@ class BookmarkContainer extends React.Component {
             <div>
               {this.state.bookmarks
                 ? this.state.bookmarks.map((item, index) => (
-                    <Bookmark data={item} key={index} />
+                    <Bookmark
+                      onDelete={this.handleDelete}
+                      data={item}
+                      key={index}
+                    />
                   ))
                 : null}
             </div>
