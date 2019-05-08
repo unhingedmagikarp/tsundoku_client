@@ -8,7 +8,6 @@ class BookmarkContainer extends React.Component {
   state = {};
 
   componentWillMount() {
-    console.log("in container");
     this.fetchBookmarks();
   }
 
@@ -16,7 +15,6 @@ class BookmarkContainer extends React.Component {
     const { cookies } = this.props;
     let jwt = cookies.get("rails-react-token-auth-jwt");
     Api.getBookmarks(jwt).then(response => {
-      console.log(response);
       this.setState({
         bookmarks: response.data
       });
@@ -27,15 +25,11 @@ class BookmarkContainer extends React.Component {
     return (
       <Container fluid>
         <Row>
-          <Col
-            lg="3"
-            sm="3"
-            style={{ border: "1px solid black", height: "800px" }}
-          >
+          <Col lg="3" sm="3">
             <GroupContainer> </GroupContainer>
           </Col>
           <Col lg="7" sm="7">
-            <div style={{ border: "1px solid red", height: "800px" }}>
+            <div>
               {this.state.bookmarks
                 ? this.state.bookmarks.map((item, index) => (
                     <Bookmark data={item} key={index} />

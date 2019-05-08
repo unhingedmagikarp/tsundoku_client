@@ -1,14 +1,5 @@
 import React, { Component } from "react";
-import {
-  Card,
-  CardImg,
-  CardBody,
-  CardTitle,
-  CardSubtitle,
-  CardText,
-  CardHeader,
-  Button
-} from "reactstrap";
+import CollapsableGroup from "./CollapsableGroup";
 
 class GroupContainer extends Component {
   state = {
@@ -47,17 +38,7 @@ class GroupContainer extends Component {
     return (
       <div>
         {this.state.groups
-          ? this.state.groups.map(group => (
-              <Card>
-                <CardBody>
-                  <CardHeader>{group.name}</CardHeader>
-
-                  {group.members.map(member => (
-                    <CardText> {member} </CardText>
-                  ))}
-                </CardBody>
-              </Card>
-            ))
+          ? this.state.groups.map(group => <CollapsableGroup group={group} />)
           : null}
       </div>
     );
