@@ -1,0 +1,21 @@
+.cardImg {
+  width: 45% !important;
+  height: auto;
+  margin-top: 40px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.cardSubtitle {
+  text-align: center;
+  margin-bottom: 30px !important;
+  font-style: italic;
+  font-family: "Times New Roman", Times, serif;
+}
+
+.cardText {
+  text-align: center;
+  margin-bottom: 10px;
+  font-family: "Times New Roman", Times, serif;
+  font-size: 110%;
+}
