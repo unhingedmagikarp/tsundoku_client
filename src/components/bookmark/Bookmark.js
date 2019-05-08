@@ -17,7 +17,9 @@ class Bookmark extends React.Component {
               </Col>
               <Col lg="6" sm="6">
                 <Card className="cardCont">
-                  <CardHeader>{this.props.data.title}</CardHeader>
+                  <CardHeader className="header">
+                    {this.props.data.title}
+                  </CardHeader>
                   <CardText className="textBox">
                     <a href={this.props.data.url}>{this.props.data.url}</a>
                   </CardText>
