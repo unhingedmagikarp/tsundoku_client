@@ -12,54 +12,7 @@ import {
 
 import * as Api from "../lib/Api";
 
-class AuthSignInComponent extends React.Component {
-  render() {
-    return (
-      <Container>
-        <Row>
-          <Col xs={12} md={12}>
-            {this.getFormErrors().length > 0 && this.state.formSubmitted && (
-              <Alert color="danger">
-                <strong>Please correct the following errors:</strong>
-                <ul>
-                  {this.getFormErrors().map((message, index) => (
-                    <li key={"error_message_" + index}>{message}</li>
-                  ))}
-                </ul>
-              </Alert>
-            )}
-
-            <form onSubmit={this.handleSubmit}>
-              <FormGroup>
-                <Label>Email</Label>
-                <Input
-                  id="authEmail"
-                  type="email"
-                  label="Email address"
-                  placeholder="Enter email"
-                  onChange={this.setEmail}
-                />
-              </FormGroup>
-
-              <FormGroup>
-                <Label>Password</Label>
-                <Input
-                  id="authPassword"
-                  type="password"
-                  label="Password"
-                  placeholder="Enter password"
-                  onChange={this.setPassword}
-                />
-              </FormGroup>
-
-              <Button type="submit">Log in</Button>
-            </form>
-          </Col>
-        </Row>
-      </Container>
-    );
-  }
-
+class AuthSignUpComponent extends React.Component {
   defaultState() {
     return {
       email: {
@@ -69,6 +22,9 @@ class AuthSignInComponent extends React.Component {
       password: {
         value: "",
         error: "Password is required."
+      },
+      name: {
+        value: ""
       },
       submit: {
         error: ""
@@ -127,6 +83,14 @@ class AuthSignInComponent extends React.Component {
     });
   };
 
+  setName = event => {
+    this.setState({
+        name: {
+            value: event.target.value
+        }
+    })
+  }
+
   handleSubmit = event => {
     event.preventDefault();
     this.setState({
@@ -140,9 +104,10 @@ class AuthSignInComponent extends React.Component {
       return false;
     }
 
-    Api.authenticateUser(
+    Api.signupUser(
       this.state.email.value,
-      this.state.password.value
+      this.state.password.value,
+      this.state.name.value
     ).then(jwt => {
       if (jwt) {
         this.props.propagateSignIn(jwt, this.props.history);
@@ -156,6 +121,64 @@ class AuthSignInComponent extends React.Component {
       }
     });
   };
+
+  render() {
+    return (
+      <Container>
+        <Row>
+          <Col xs={12} md={12}>
+            {this.getFormErrors().length > 0 && this.state.formSubmitted && (
+              <Alert color="danger">
+                <strong>Please correct the following errors:</strong>
+                <ul>
+                  {this.getFormErrors().map((message, index) => (
+                    <li key={"error_message_" + index}>{message}</li>
+                  ))}
+                </ul>
+              </Alert>
+            )}
+
+            <form onSubmit={this.handleSubmit}>
+              <FormGroup>
+                <Label>Email</Label>
+                <Input
+                  id="authEmail"
+                  type="email"
+                  label="Email address"
+                  placeholder="Enter email"
+                  onChange={this.setEmail}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <Label>Name</Label>
+                <Input
+                  id="name"
+                  type="text"
+                  label="name"
+                  placeholder="Enter name"
+                  onChange={this.setName}
+                />
+              </FormGroup>
+
+              <FormGroup>
+                <Label>Password</Label>
+                <Input
+                  id="authPassword"
+                  type="password"
+                  label="Password"
+                  placeholder="Enter password"
+                  onChange={this.setPassword}
+                />
+              </FormGroup>
+
+              <Button type="submit">Log in</Button>
+            </form>
+          </Col>
+        </Row>
+      </Container>
+    );
+  }
 }
 
-export default AuthSignInComponent;
+export default AuthSignUpComponent;

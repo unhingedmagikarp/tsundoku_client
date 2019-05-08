@@ -19,6 +19,22 @@ module.exports = {
         return undefined;
       });
   },
+  signupUser: function(email, password, name) {
+    let data = {
+      auth: {
+        email: email,
+        password: password
+      }
+    };
+    return axios
+      .post(apiHost + "/api/users", data)
+      .then(response => {
+        return response.data.jwt;
+      })
+      .catch(error => {
+        return undefined;
+      });
+  },
   getCurrentUser: function(jwt) {
     let config = {
       headers: {}

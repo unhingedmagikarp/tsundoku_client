@@ -38,26 +38,29 @@ export default class NavigationBar extends React.Component {
           <NavbarToggler onClick={this.toggle} />
           <Collapse isOpen={this.state.isOpen} navbar>
             <Nav className="ml-auto" navbar>
-              <NavItem>
-                <MdAdd className="iconClass" onClick={this.toggleModal} />
-                {this.state.modal && (
+              {this.props.appState.jwt && (
+                <NavItem>
+                  <MdAdd className="iconClass" onClick={this.toggleModal} />
                   <BookmarkModal
                     token={this.props.appState.jwt}
                     toggle={this.toggleModal}
                     modal={this.state.modal}
                   />
-                )}
-              </NavItem>
-
+                </NavItem>
+              )}
               {!this.props.appState.jwt && (
                 <NavLink href="/sign-in">
                   <NavItem eventkey={3}>Sign In</NavItem>
                 </NavLink>
               )}
-
+              {!this.props.appState.jwt && (
+                <NavLink href="/sign-up">
+                  <NavItem eventkey={4}>Sign Up</NavItem>
+                </NavLink>
+              )}
               {this.props.appState.jwt && (
                 <NavLink href="/sign-out">
-                  <NavItem eventkey={4}>Sign Out</NavItem>
+                  <NavItem eventkey={5}>Sign Out</NavItem>
                 </NavLink>
               )}
             </Nav>
