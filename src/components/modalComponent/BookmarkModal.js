@@ -9,21 +9,54 @@ import {
   Label,
   FormGroup,
   Input,
-  Container
+  Container,
+  ButtonGroup
 } from "reactstrap";
 
 import * as Api from "../../lib/Api";
+import CheckBox from "./CheckBox";
 
 class BookmarkModal extends Component {
-  state = {
-    private: false
+  state = { private: false, cSelected: [] };
+
+  componentDidMount() {
+    this.fetchTags();
+  }
+
+  onSelect = selected => {
+    const index = this.state.cSelected.indexOf(selected);
+    if (index < 0) {
+      this.state.cSelected.push(selected);
+    } else {
+      this.state.cSelected.splice(index, 1);
+    }
+    this.setState({ cSelected: [...this.state.cSelected] });
+  };
+
+  fetchTags = () => {
+    const jwt = this.props.token;
+    this.setState({ jwt: this.props.token });
+
+    Api.getTags(jwt)
+      .then(response => {
+        this.setState({
+          tags: response.data
+        });
+      })
+      .catch(err => console.log(err));
   };
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
+  handleTag = e => this.setState({ [e.target.name]: [e.target.value] });
 
   handleSubmit = e => {
     e.preventDefault();
-    Api.postBookmark(this.props.token, this.state).then(res => {
+    Api.postBookmark(this.props.token, {
+      title: this.state.title,
+      url: this.state.url,
+      tags: this.state.cSelected
+    }).then(res => {
+      console.log(res);
       this.props.toggle();
       window.location.reload();
     });
@@ -60,6 +93,21 @@ class BookmarkModal extends Component {
                     id="url"
                     placeholder="Url..."
                   />
+                </FormGroup>
+                <FormGroup row>
+                  <Label for="tags" sm={2}>
+                    Tags
+                  </Label>
+                  <ButtonGroup>
+                    {this.state.tags &&
+                      this.state.tags.map((item, index) => (
+                        <CheckBox
+                          key={index}
+                          tag={item}
+                          trigger={this.onSelect}
+                        />
+                      ))}
+                  </ButtonGroup>
                 </FormGroup>
               </Form>
             </Container>

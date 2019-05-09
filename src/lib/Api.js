@@ -131,6 +131,22 @@ module.exports = {
         return undefined;
       });
   },
+  getTags: function(jwt) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    axios
+      .get(apiHost + "/api/tags/", config)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return undefined;
+      });
+  },
   createGroup: function(jwt, data) {
     let config = {
       headers: {}
