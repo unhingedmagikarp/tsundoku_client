@@ -26,11 +26,11 @@ class BookmarkModal extends Component {
   onSelect = selected => {
     const index = this.state.cSelected.indexOf(selected);
     if (index < 0) {
-      this.state.cSelected.push(selected);
+      this.setState({ cSelected: [...this.state.cSelected, selected] });
     } else {
       this.state.cSelected.splice(index, 1);
+      this.setState({ cSelected: [...this.state.cSelected] });
     }
-    this.setState({ cSelected: [...this.state.cSelected] });
   };
 
   fetchTags = () => {
@@ -47,14 +47,13 @@ class BookmarkModal extends Component {
   };
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
-  handleTag = e => this.setState({ [e.target.name]: [e.target.value] });
 
   handleSubmit = e => {
     e.preventDefault();
     Api.postBookmark(this.props.token, {
       title: this.state.title,
       url: this.state.url,
-      tags: this.state.cSelected
+      tags: [...this.state.cSelected, this.state.tags]
     }).then(res => {
       console.log(res);
       this.props.toggle();
@@ -108,6 +107,13 @@ class BookmarkModal extends Component {
                         />
                       ))}
                   </ButtonGroup>
+                  <Input
+                    onChange={this.handleChange}
+                    type="tag"
+                    name="tag"
+                    id="tag"
+                    placeholder="Tag..."
+                  />
                 </FormGroup>
               </Form>
             </Container>
