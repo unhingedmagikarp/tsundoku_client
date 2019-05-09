@@ -115,7 +115,7 @@ module.exports = {
         return undefined;
       });
   },
-  getTags: function(jwt) {
+  getGroups: function(jwt) {
     let config = {
       headers: {}
     };
@@ -123,7 +123,39 @@ module.exports = {
       config["headers"]["Authorization"] = "Bearer " + jwt;
     }
     return axios
+      .get(apiHost + `/api/groups`, config)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return undefined;
+      });
+  },
+  getTags: function(jwt) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    axios
       .get(apiHost + "/api/tags/", config)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return undefined;
+      });
+  },
+  createGroup: function(jwt, data) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    return axios
+      .post(apiHost + "/api/groups/", data, config)
       .then(response => {
         return response.data;
       })

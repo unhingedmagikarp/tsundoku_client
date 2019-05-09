@@ -4,7 +4,6 @@ import Bookmark from "./Bookmark";
 import GroupContainer from "../group/GroupContainer";
 import * as Api from "../../lib/Api";
 import { Redirect } from "react-router-dom";
-import HomePage from "../homepage/Homepage";
 
 class BookmarkContainer extends React.Component {
   state = {};
@@ -18,7 +17,7 @@ class BookmarkContainer extends React.Component {
     let jwt = cookies.get("rails-react-token-auth-jwt");
     this.setState({ jwt: jwt });
     if (!jwt) {
-      return <Redirect to="/sign-in" />;
+      return;
     }
     Api.getBookmarks(jwt)
       .then(response => {
@@ -27,15 +26,6 @@ class BookmarkContainer extends React.Component {
         });
       })
       .catch(err => console.log(err));
-  };
-
-  handleDelete = id => {
-    const { cookies } = this.props;
-    let jwt = cookies.get("rails-react-token-auth-jwt");
-    if (!jwt) {
-      return <Redirect to="/sign-in" />;
-    }
-    Api.deleteBookmark(id, jwt).then(() => this.fetchBookmarks());
   };
 
   render() {
@@ -47,13 +37,9 @@ class BookmarkContainer extends React.Component {
           </Col>
           <Col lg="7" sm="7">
             <div>
-              {this.state.bookmarks
+              {this.state.bookmarks && this.state.jwt
                 ? this.state.bookmarks.map((item, index) => (
-                    <Bookmark
-                      onDelete={() => this.handleDelete(item.id)}
-                      data={item}
-                      key={index}
-                    />
+                    <Bookmark data={item} key={index} />
                   ))
                 : null}
             </div>
