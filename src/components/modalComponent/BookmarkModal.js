@@ -17,7 +17,7 @@ import * as Api from "../../lib/Api";
 import CheckBox from "./CheckBox";
 
 class BookmarkModal extends Component {
-  state = { private: false, cSelected: [] };
+  state = { private: false, cSelected: [], dropdownOpen: false };
 
   componentDidMount() {
     this.fetchTags();
@@ -53,7 +53,7 @@ class BookmarkModal extends Component {
     Api.postBookmark(this.props.token, {
       title: this.state.title,
       url: this.state.url,
-      tags: [...this.state.cSelected, this.state.tags]
+      tags: [...this.state.cSelected, this.state.tag]
     }).then(res => {
       console.log(res);
       this.props.toggle();
@@ -97,6 +97,7 @@ class BookmarkModal extends Component {
                   <Label for="tags" sm={2}>
                     Tags
                   </Label>
+
                   <ButtonGroup>
                     {this.state.tags &&
                       this.state.tags.map((item, index) => (
