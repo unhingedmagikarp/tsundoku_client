@@ -17,18 +17,13 @@ import * as Api from "../../lib/Api";
 import CheckBox from "./CheckBox";
 
 class BookmarkModal extends Component {
-  constructor(props) {
-    super(props);
-
-    this.state = { private: false, cSelected: [] };
-    this.onCheckboxBtnClick = this.onCheckboxBtnClick.bind(this);
-  }
+  state = { private: false, cSelected: [] };
 
   componentDidMount() {
     this.fetchTags();
   }
 
-  onCheckboxBtnClick(selected) {
+  onSelect = selected => {
     const index = this.state.cSelected.indexOf(selected);
     if (index < 0) {
       this.state.cSelected.push(selected);
@@ -36,8 +31,7 @@ class BookmarkModal extends Component {
       this.state.cSelected.splice(index, 1);
     }
     this.setState({ cSelected: [...this.state.cSelected] });
-    console.log(this.state);
-  }
+  };
 
   fetchTags = () => {
     const jwt = this.props.token;
@@ -57,7 +51,12 @@ class BookmarkModal extends Component {
 
   handleSubmit = e => {
     e.preventDefault();
-    Api.postBookmark(this.props.token, this.state).then(res => {
+    Api.postBookmark(this.props.token, {
+      title: this.state.title,
+      url: this.state.url,
+      tags: this.state.cSelected
+    }).then(res => {
+      console.log(res);
       this.props.toggle();
       window.location.reload();
     });
@@ -96,20 +95,19 @@ class BookmarkModal extends Component {
                   />
                 </FormGroup>
                 <FormGroup row>
-                  {/* <Label for="tag" sm={2}>
-                    Tag
+                  <Label for="tags" sm={2}>
+                    Tags
                   </Label>
-                  <Input
-                    onChange={this.handleTag}
-                    type="tag"
-                    name="tags"
-                    id="tag"
-                    placeholder="Tag..."
-                  /> */}
-                  <CheckBox>
-                    <p>Tags </p>
-                    <ButtonGroup />
-                  </CheckBox>
+                  <ButtonGroup>
+                    {this.state.tags &&
+                      this.state.tags.map((item, index) => (
+                        <CheckBox
+                          key={index}
+                          tag={item}
+                          trigger={this.onSelect}
+                        />
+                      ))}
+                  </ButtonGroup>
                 </FormGroup>
               </Form>
             </Container>
