@@ -9,14 +9,47 @@ import {
   Label,
   FormGroup,
   Input,
-  Container
+  Container,
+  ButtonGroup
 } from "reactstrap";
 
 import * as Api from "../../lib/Api";
+import CheckBox from "./CheckBox";
 
 class BookmarkModal extends Component {
-  state = {
-    private: false
+  constructor(props) {
+    super(props);
+
+    this.state = { private: false, cSelected: [] };
+    this.onCheckboxBtnClick = this.onCheckboxBtnClick.bind(this);
+  }
+
+  componentDidMount() {
+    this.fetchTags();
+  }
+
+  onCheckboxBtnClick(selected) {
+    const index = this.state.cSelected.indexOf(selected);
+    if (index < 0) {
+      this.state.cSelected.push(selected);
+    } else {
+      this.state.cSelected.splice(index, 1);
+    }
+    this.setState({ cSelected: [...this.state.cSelected] });
+    console.log(this.state);
+  }
+
+  fetchTags = () => {
+    const jwt = this.props.token;
+    this.setState({ jwt: this.props.token });
+
+    Api.getTags(jwt)
+      .then(response => {
+        this.setState({
+          tags: response.data
+        });
+      })
+      .catch(err => console.log(err));
   };
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
@@ -63,7 +96,7 @@ class BookmarkModal extends Component {
                   />
                 </FormGroup>
                 <FormGroup row>
-                  <Label for="tag" sm={2}>
+                  {/* <Label for="tag" sm={2}>
                     Tag
                   </Label>
                   <Input
@@ -72,7 +105,11 @@ class BookmarkModal extends Component {
                     name="tags"
                     id="tag"
                     placeholder="Tag..."
-                  />
+                  /> */}
+                  <CheckBox>
+                    <p>Tags </p>
+                    <ButtonGroup />
+                  </CheckBox>
                 </FormGroup>
               </Form>
             </Container>
