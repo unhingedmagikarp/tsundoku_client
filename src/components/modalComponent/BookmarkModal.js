@@ -20,6 +20,7 @@ class BookmarkModal extends Component {
   };
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
+  handleTag = e => this.setState({ [e.target.name]: [e.target.value] });
 
   handleSubmit = e => {
     e.preventDefault();
@@ -59,6 +60,18 @@ class BookmarkModal extends Component {
                     name="url"
                     id="url"
                     placeholder="Url..."
+                  />
+                </FormGroup>
+                <FormGroup row>
+                  <Label for="tag" sm={2}>
+                    Tag
+                  </Label>
+                  <Input
+                    onChange={this.handleTag}
+                    type="tag"
+                    name="tags"
+                    id="tag"
+                    placeholder="Tag..."
                   />
                 </FormGroup>
               </Form>
