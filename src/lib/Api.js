@@ -114,5 +114,37 @@ module.exports = {
       .catch(error => {
         return undefined;
       });
+  },
+  getGroups: function(jwt) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    return axios
+      .get(apiHost + `/api/groups`, config)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return undefined;
+      });
+  },
+  createGroup: function(jwt, data) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    return axios
+      .post(apiHost + "/api/groups/", data, config)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return undefined;
+      });
   }
 };

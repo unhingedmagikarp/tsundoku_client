@@ -11,35 +11,31 @@ import {
 import { MdPeople } from "react-icons/md";
 
 class CollapsableGroup extends Component {
-  constructor(props) {
-    super(props);
-    this.toggle = this.toggle.bind(this);
-    this.state = { collapse: false };
-  }
+  state = { collapse: false };
 
-  toggle() {
+  toggle = () => {
     this.setState(state => ({ collapse: !state.collapse }));
-  }
+  };
 
   render() {
     return (
-      <div>
+      <div style={{ width: "250px" }}>
         <Button
           color="primary"
           onClick={this.toggle}
-          style={{ marginBottom: "1rem" }}
+          style={{ marginBottom: "1rem", width: "100%", textAlign: "start" }}
         >
-          {this.props.group.name}{" "}
-          <Badge color="light" pill>
-            <MdPeople /> {this.props.group.members.length}
+          {this.props.group.name}
+          <Badge color="light float-right" pill style={{ top: "2px" }}>
+            <MdPeople /> {this.props.group.users.length}
           </Badge>
         </Button>
         <Collapse isOpen={this.state.collapse}>
           <Card>
             <CardBody>
               <ListGroup>
-                {this.props.group.members.map((member, index) => (
-                  <ListGroupItem key={index + 1}>{member}</ListGroupItem>
+                {this.props.group.users.map((member, index) => (
+                  <ListGroupItem key={index + 1}>{member.name}</ListGroupItem>
                 ))}
               </ListGroup>
               <Button color="primary" style={{ marginTop: "1rem" }}>

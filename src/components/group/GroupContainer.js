@@ -1,40 +1,16 @@
 import React, { Component } from "react";
 import CollapsableGroup from "./CollapsableGroup";
+import * as Api from "../../lib/Api";
+import { Button } from "reactstrap";
+import GroupModal from "./GroupModal";
 
 class GroupContainer extends Component {
   state = {
-    groups: [
-      {
-        name: "Group 1",
-        members: ["Ranjit", "Pete", "Myrto"],
-        bookmarks: [
-          { title: "title 1", url: "url 1" },
-          { title: "title 2 ", url: "url 2" },
-          { title: "title 3", url: "url 3" }
-        ]
-      },
-      {
-        name: "Group 2",
-        members: ["Ranjit", "Pete", "Myrto"],
-        bookmarks: [
-          { title: "title 1", url: "url 1" },
-          { title: "title 2 ", url: "url 2" },
-          { title: "title 3", url: "url 3" }
-        ]
-      },
-      {
-        name: "Group 3",
-        members: ["Ranjit", "Pete", "Myrto"],
-        bookmarks: [
-          { title: "title 1", url: "url 1" },
-          { title: "title 2 ", url: "url 2" },
-          { title: "title 3", url: "url 3" }
-        ]
-      }
-    ]
+    modal: false
   };
 
   componentDidMount() {
+    console.log(this.props);
     const { cookies } = this.props.jwt;
     let jwt = cookies.get("rails-react-token-auth-jwt");
     if (!jwt) {
@@ -42,12 +18,37 @@ class GroupContainer extends Component {
     } else {
       this.setState({ jwt: jwt });
     }
+    this.fetchGroups(jwt);
   }
+
+  fetchGroups = jwt => {
+    Api.getGroups(jwt).then(res => this.setState({ groups: res }));
+  };
+
+  toggle = () => {
+    this.setState({ modal: !this.state.modal });
+  };
 
   render() {
     return (
-      <div>
-        {this.state.groups
+      <div style={{ marginTop: "50px" }}>
+        {this.state.jwt && (
+          <Button
+            color="primary"
+            onClick={this.toggle}
+            style={{ marginBottom: "40px" }}
+          >
+            Add Group
+            <GroupModal
+              token={this.state.jwt}
+              toggle={this.toggle}
+              modal={this.state.modal}
+              refresh={this.fetchGroups}
+            />
+          </Button>
+        )}
+
+        {this.state.groups && this.state.jwt
           ? this.state.groups.map((group, index) => (
               <CollapsableGroup key={index} group={group} />
             ))
