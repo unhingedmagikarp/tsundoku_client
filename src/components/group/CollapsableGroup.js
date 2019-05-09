@@ -24,6 +24,7 @@ class CollapsableGroup extends Component {
           color="primary"
           onClick={this.toggle}
           style={{ marginBottom: "1rem", width: "100%", textAlign: "start" }}
+          className="round"
         >
           {this.props.group.name}
           <Badge color="light float-right" pill style={{ top: "2px" }}>

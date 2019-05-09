@@ -162,5 +162,21 @@ module.exports = {
       .catch(error => {
         return undefined;
       });
+  },
+  searchGroup: function(jwt, data) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    return axios
+      .post(apiHost + "/api/search", data, config)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return undefined;
+      });
   }
 };
