@@ -9,12 +9,19 @@ import {
   Badge
 } from "reactstrap";
 import { MdPeople } from "react-icons/md";
+import * as Api from "../../lib/Api";
 
 class CollapsableGroup extends Component {
   state = { collapse: false };
 
   toggle = () => {
     this.setState(state => ({ collapse: !state.collapse }));
+  };
+
+  handleRefresh = () => {
+    Api.getGroupBookmarks(this.props.jwt, this.props.group.id).then(res => {
+      this.props.refresh(res);
+    });
   };
 
   render() {
@@ -39,7 +46,11 @@ class CollapsableGroup extends Component {
                   <ListGroupItem key={index + 1}>{member.name}</ListGroupItem>
                 ))}
               </ListGroup>
-              <Button color="primary" style={{ marginTop: "1rem" }}>
+              <Button
+                color="primary"
+                style={{ marginTop: "1rem" }}
+                onClick={this.handleRefresh}
+              >
                 Display Bookmarks
               </Button>
             </CardBody>

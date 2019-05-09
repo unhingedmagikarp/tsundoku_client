@@ -36,7 +36,9 @@ class BookmarkModal extends Component {
   fetchTags = () => {
     const jwt = this.props.token;
     this.setState({ jwt: this.props.token });
-
+    if (!jwt) {
+      return;
+    }
     Api.getTags(jwt)
       .then(response => {
         this.setState({
@@ -55,7 +57,6 @@ class BookmarkModal extends Component {
       url: this.state.url,
       tags: [...this.state.cSelected, this.state.tag]
     }).then(res => {
-      console.log(res);
       this.props.toggle();
       window.location.reload();
     });

@@ -23,7 +23,10 @@ class GroupContainer extends Component {
   }
 
   fetchGroups = jwt => {
-    Api.getGroups(jwt).then(res => this.setState({ groups: res }));
+    Api.getGroups(jwt).then(res => {
+      this.setState({ groups: res });
+      this.props.getGroups(res);
+    });
   };
 
   toggle = () => {
@@ -82,7 +85,12 @@ class GroupContainer extends Component {
 
         {this.state.groups && this.state.jwt
           ? this.state.groups.map((group, index) => (
-              <CollapsableGroup key={index} group={group} />
+              <CollapsableGroup
+                refresh={this.props.refresh}
+                key={index}
+                group={group}
+                jwt={this.state.jwt}
+              />
             ))
           : null}
       </div>

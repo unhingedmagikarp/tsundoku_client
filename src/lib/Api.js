@@ -178,5 +178,38 @@ module.exports = {
       .catch(error => {
         return undefined;
       });
+  },
+  getGroupBookmarks: function(jwt, id) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    return axios
+      .get(apiHost + `/api/groups/${id}`, config)
+      .then(response => {
+        console.log(response.data);
+        return response.data;
+      })
+      .catch(error => {
+        return undefined;
+      });
+  },
+  shareBookmark: function(jwt, data, id) {
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    return axios
+      .post(apiHost + `/api/share/${id}`, data, config)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return undefined;
+      });
   }
 };
