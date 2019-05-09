@@ -138,8 +138,8 @@ module.exports = {
     if (jwt) {
       config["headers"]["Authorization"] = "Bearer " + jwt;
     }
-    axios
-      .get(apiHost + "/api/tags/", config)
+    return axios
+      .get(apiHost + `/api/tags`, config)
       .then(response => {
         return response.data;
       })
