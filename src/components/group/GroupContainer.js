@@ -25,6 +25,7 @@ class GroupContainer extends Component {
   fetchGroups = jwt => {
     Api.getGroups(jwt).then(res => {
       this.setState({ groups: res });
+      console.log(this.state.groups);
       this.props.getGroups(res);
     });
   };
@@ -90,6 +91,7 @@ class GroupContainer extends Component {
                 key={index}
                 group={group}
                 jwt={this.state.jwt}
+                getGroups={this.fetchGroups}
               />
             ))
           : null}
