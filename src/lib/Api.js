@@ -163,6 +163,23 @@ module.exports = {
         return undefined;
       });
   },
+  joinGroup: function(jwt, id) {
+    console.log(jwt);
+    let config = {
+      headers: {}
+    };
+    if (jwt) {
+      config["headers"]["Authorization"] = "Bearer " + jwt;
+    }
+    return axios
+      .post(apiHost + `/api/join/${id}`, config)
+      .then(response => {
+        return response.data;
+      })
+      .catch(error => {
+        return undefined;
+      });
+  },
   searchGroup: function(jwt, data) {
     let config = {
       headers: {}

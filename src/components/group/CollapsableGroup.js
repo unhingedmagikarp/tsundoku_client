@@ -24,6 +24,10 @@ class CollapsableGroup extends Component {
     });
   };
 
+  handleJoin = () => {
+    Api.joinGroup(this.props.jwt, this.props.group.id);
+  };
+
   render() {
     return (
       <div style={{ width: "250px" }}>
@@ -52,6 +56,13 @@ class CollapsableGroup extends Component {
                 onClick={this.handleRefresh}
               >
                 Display Bookmarks
+              </Button>
+              <Button
+                color="primary"
+                style={{ marginTop: "1rem" }}
+                onClick={this.handleJoin}
+              >
+                Join Group
               </Button>
             </CardBody>
           </Card>
