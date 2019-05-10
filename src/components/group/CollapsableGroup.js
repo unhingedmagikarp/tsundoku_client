@@ -25,7 +25,10 @@ class CollapsableGroup extends Component {
   };
 
   handleJoin = () => {
-    Api.joinGroup(this.props.jwt, this.props.group.id);
+    Api.joinGroup(this.props.jwt, this.props.group.id).then(() => {
+      this.props.getGroups(this.props.jwt);
+    });
+    //this.props.refresh(this.props.jwt)
   };
 
   render() {

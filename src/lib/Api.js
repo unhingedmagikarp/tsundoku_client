@@ -164,7 +164,6 @@ module.exports = {
       });
   },
   joinGroup: function(jwt, id) {
-    console.log(jwt);
     let config = {
       headers: {}
     };
@@ -172,7 +171,7 @@ module.exports = {
       config["headers"]["Authorization"] = "Bearer " + jwt;
     }
     return axios
-      .post(apiHost + `/api/join/${id}`, config)
+      .post(apiHost + `/api/joingroup/${id}`, null, config)
       .then(response => {
         return response.data;
       })

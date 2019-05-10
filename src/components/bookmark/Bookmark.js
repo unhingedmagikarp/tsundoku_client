@@ -21,10 +21,6 @@ class Bookmark extends React.Component {
     dropdownOpen: false
   };
 
-  toggleShare = () => {
-    console.log(this.props);
-  };
-
   toggle = () => {
     this.setState({
       dropdownOpen: !this.state.dropdownOpen
@@ -60,14 +56,6 @@ class Bookmark extends React.Component {
               <Col lg="3" sm="3" />
               <Col lg="2" sm="2">
                 <Col style={{ marginLeft: "-70px", marginTop: "5px" }}>
-                  {/* <MdShare
-                    style={{
-                      marginTop: "17px",
-                      cursor: "pointer",
-                      color: "grey"
-                    }}
-                    onClick={this.toggleShare}
-                  /> */}
                   <ButtonDropdown
                     isOpen={this.state.dropdownOpen}
                     toggle={this.toggle}
