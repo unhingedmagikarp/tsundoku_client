@@ -19,9 +19,9 @@ import CheckBox from "./CheckBox";
 class BookmarkModal extends Component {
   state = { private: false, cSelected: [], dropdownOpen: false };
 
-  componentDidMount() {
-    this.fetchTags();
-  }
+  // componentDidMount() {
+  //   this.fetchTags();
+  // }
 
   onSelect = selected => {
     const index = this.state.cSelected.indexOf(selected);
@@ -33,20 +33,20 @@ class BookmarkModal extends Component {
     }
   };
 
-  fetchTags = () => {
-    const jwt = this.props.token;
-    this.setState({ jwt: this.props.token });
-    if (!jwt) {
-      return;
-    }
-    Api.getTags(jwt)
-      .then(response => {
-        this.setState({
-          tags: response.data
-        });
-      })
-      .catch(err => console.log(err));
-  };
+  // fetchTags = () => {
+  //   const jwt = this.props.token;
+  //   this.setState({ jwt: this.props.token });
+  //   if (!jwt) {
+  //     return;
+  //   }
+  //   Api.getTags(jwt)
+  //     .then(response => {
+  //       this.setState({
+  //         tags: response.data
+  //       });
+  //     })
+  //     .catch(err => console.log(err));
+  // };
 
   handleChange = e => this.setState({ [e.target.name]: e.target.value });
 
@@ -94,7 +94,7 @@ class BookmarkModal extends Component {
                     placeholder="Url..."
                   />
                 </FormGroup>
-                <FormGroup row>
+                {/* <FormGroup row>
                   <Label for="tags" sm={2}>
                     Tags
                   </Label>
@@ -116,7 +116,7 @@ class BookmarkModal extends Component {
                     id="tag"
                     placeholder="Tag..."
                   />
-                </FormGroup>
+                </FormGroup> */}
               </Form>
             </Container>
           </ModalBody>
